@@ -1,28 +1,38 @@
 import Foundation
 
 func main() {
-    guard CommandLine.arguments.count > 1 else {
+    guard let filePath = parseArguments() else {
         print("Usage: ccwc <file>")
-        return 
+        return
     }
-    /// filePath is the first argument after the program name   
-    let filePath = CommandLine.arguments[1]
-    /// check if the file exists
-    guard FileManager.default.fileExists(atPath: filePath) else {
+    
+    guard fileExists(at: filePath) else {
         print("File does not exist")
-        return 
+        return
     }
-    /// Read the file 
+    
     do {
-        let fileData = try Data(contentsOf: URL(fileURLWithPath: filePath))
-        let byteCount = fileData.count
+        let byteCount = try readFileAndCountBytes(at: filePath)
         print("\(byteCount) bytes")
     } catch {
         print("Error reading file: \(error)")
-        return 
     }
+}
 
-}   
+func parseArguments() -> String? {
+    guard CommandLine.arguments.count > 1 else {
+        return nil
+    }
+    return CommandLine.arguments[1]
+}
 
+func fileExists(at path: String) -> Bool {
+    return FileManager.default.fileExists(atPath: path)
+}
+
+func readFileAndCountBytes(at path: String) throws -> Int {
+    let fileData = try Data(contentsOf: URL(fileURLWithPath: path))
+    return fileData.count
+}
 
 main()

@@ -14,9 +14,11 @@ let package = Package(
     targets: [
         .executableTarget(name: "coding-challenge-fyi"),
         .executableTarget(name: "ccwc"),
+        .testTarget(name: "ccwcTests",
+                   dependencies: ["ccwc"]),
         .executableTarget(name: "program2"),
         .testTarget(
             name: "coding-challenge-fyiTests",
-            dependencies: ["coding-challenge-fyi", "ccwc", "program2"]),
+            dependencies: ["coding-challenge-fyi"]),
     ]
 )
