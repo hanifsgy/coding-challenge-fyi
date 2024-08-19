@@ -1,7 +1,7 @@
 # Coding Challenges FYI
 
 Contents:
-- [ccwc](Sources/ccwc/README.md)    
+- [ccwc](Sources/ccwc/Readme.md)    
 
 References:
 https://codingchallenges.fyi/challenges/intro 
