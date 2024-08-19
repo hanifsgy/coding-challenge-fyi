@@ -18,3 +18,5 @@ the output should be
 ```md
 342190 test.txt
 ```
+
+- improved challenge 1: leveraging swift argument parser
