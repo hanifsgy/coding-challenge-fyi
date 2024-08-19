@@ -9,3 +9,4 @@ DerivedData/
 # compiled files    
 compiled
 .vscode 
+.swiftpm
