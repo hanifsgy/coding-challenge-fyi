@@ -1,6 +1,6 @@
 import Foundation
 
-func main() {
+func main(_ args: [String] = CommandLine.arguments) {
     // guard let filePath = parseArguments() else {
     //     print("Usage: ccwc <file>")
     //     return
@@ -22,11 +22,11 @@ func main() {
     CCWCCommand.main()
 }
 
-func parseArguments() -> String? {
-    guard CommandLine.arguments.count > 1 else {
+func parseArguments(_ args: [String] = CommandLine.arguments) -> String? {
+    guard args.count > 1 else {
         return nil
     }
-    return CommandLine.arguments[1]
+    return args[1]
 }
 
 func fileExists(at path: String) -> Bool {
