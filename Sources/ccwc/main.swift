@@ -44,4 +44,10 @@ func readFileAndCountLines(at path: String) throws -> Int {
     return lines.count - 1
 }
 
+func readFileAndCountWords(at path: String) throws -> Int {
+    let fileContent = try String(contentsOf: URL(fileURLWithPath: path), encoding: .utf8)
+    let words = fileContent.components(separatedBy: .whitespacesAndNewlines)
+    return words.filter { !$0.isEmpty }.count
+}
+
 main()

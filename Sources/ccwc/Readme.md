@@ -28,5 +28,15 @@ swift run ccwc -l test.txt
 ```
 output should be 
 ```md
-2786 test.txt
+7145 test.txt
+```
+
+- challenge 3: get the number of words in a file
+
+```swift
+swift run ccwc -w test.txt  
+```
+output should be 
+```md
+58164 test.txt
 ```

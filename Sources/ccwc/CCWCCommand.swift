@@ -11,6 +11,10 @@ struct CCWCCommand: ParsableCommand {
     @Flag(name: .shortAndLong, help: "Print the line count")
     var lineCount: Bool = false
 
+    /// Challenge 3: Print the word count
+    @Flag(name: .shortAndLong, help: "Print the word count")
+    var wordCount: Bool = false
+
     @Argument(help: "The file to read")
     var file: String
 
@@ -35,6 +39,15 @@ struct CCWCCommand: ParsableCommand {
                 print("Error reading file: \(error)")
             }
         }
+
+        if wordCount {
+            do {
+                let wordCount = try readFileAndCountWords(at: file)
+                print("\(wordCount) \(file)")
+            } catch {
+                print("Error reading file: \(error)")
+            }
+        }
     }
 
     func fileExists(at path: String) -> Bool {
@@ -53,5 +66,14 @@ struct CCWCCommand: ParsableCommand {
         let fileContent = try String(contentsOf: URL(fileURLWithPath: path), encoding: .utf8)
         let lines = fileContent.components(separatedBy: "\n")
         return lines.count - 1
+    }
+
+    /// Challenge 3: Print the word count
+    /// - Parameter path: The path to the file
+    /// - Returns: The number of words in the file  
+    func readFileAndCountWords(at path: String) throws -> Int {
+        let fileContent = try String(contentsOf: URL(fileURLWithPath: path), encoding: .utf8)
+        let words = fileContent.components(separatedBy: .whitespacesAndNewlines)
+        return words.filter { !$0.isEmpty }.count
     }
 }
