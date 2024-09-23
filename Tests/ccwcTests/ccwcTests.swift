@@ -33,6 +33,14 @@ struct ccwcTests {
         let result = try readFileAndCountBytes(at: tempFilePath)
         assert(result == content.lengthOfBytes(using: .utf8))
     }
+
+    @Test func testReadFileAndCountLines() async throws {
+        let tempFilePath = "/tmp/testfile.txt"
+        let content = "Hello, world!\nThis is a test.\n"
+        try content.write(toFile: tempFilePath, atomically: true, encoding: .utf8)
+        let lineCount = try readFileAndCountLines(at: tempFilePath)
+        assert(lineCount == 2)
+    }
 }
 
 // class ccwcTests: XCTestCase {

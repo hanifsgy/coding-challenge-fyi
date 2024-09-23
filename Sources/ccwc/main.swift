@@ -38,4 +38,10 @@ func readFileAndCountBytes(at path: String) throws -> Int {
     return fileData.count
 }
 
+func readFileAndCountLines(at path: String) throws -> Int {
+    let fileContent = try String(contentsOf: URL(fileURLWithPath: path), encoding: .utf8)
+    let lines = fileContent.components(separatedBy: "\n")
+    return lines.count - 1
+}
+
 main()

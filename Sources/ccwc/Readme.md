@@ -19,4 +19,14 @@ the output should be
 342190 test.txt
 ```
 
-- improved challenge 1: leveraging swift argument parser
+- improved challenge 1: leveraging swift argument parser. Refer: https://github.com/apple/swift-argument-parser
+
+- challenge 2: get the number of lines in a file
+
+```swift
+swift run ccwc -l test.txt
+```
+output should be 
+```md
+2786 test.txt
+```
