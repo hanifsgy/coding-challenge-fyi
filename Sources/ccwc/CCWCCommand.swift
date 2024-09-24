@@ -15,38 +15,62 @@ struct CCWCCommand: ParsableCommand {
     @Flag(name: .shortAndLong, help: "Print the word count")
     var wordCount: Bool = false
 
+    /// Challenge 4: Print the character count
+    /// - still need to reconsider locale 
+    @Flag(name: .shortAndLong, help: "Print the character count")
+    var characterCount: Bool = false
+
+    /// Challenge 5: Print the byte count, line count, word count, and character count
+    // Default option: if no flags are provided, count bytes, lines, and words
+    var defaultCount: Bool {
+        return !byteCount && !lineCount && !wordCount && !characterCount
+    }
+
+    // No need for a standard input flag; we will read from standard input directly if no file is provided.
+
     @Argument(help: "The file to read")
     var file: String
 
     public init() { }
 
     public func run() throws {
-        guard fileExists(at: file) else {
-            print("File does not exist")
-            return
-        }
+        let input: String
         
+        if file.isEmpty {
+            input = String(decoding: FileHandle.standardInput.readDataToEndOfFile(), as: UTF8.self)
+        } else {
+            guard fileExists(at: file) else {
+                print("File does not exist")
+                return
+            }
+            input = try String(contentsOfFile: file, encoding: .utf8)
+        }
+
         if byteCount {
-            let byteCount = try readFileAndCountBytes(at: file)
-            print("\(byteCount) bytes")
+            let byteCount = input.utf8.count
+            print("\(byteCount)")
         }
 
         if lineCount {
-            do {
-                let lineCount = try readFileAndCountLines(at: file)
-                print("\(lineCount) \(file)")
-            } catch {
-                print("Error reading file: \(error)")
-            }
+            let lineCount = input.components(separatedBy: .newlines).count - 1
+            print("\(lineCount)")
         }
 
         if wordCount {
-            do {
-                let wordCount = try readFileAndCountWords(at: file)
-                print("\(wordCount) \(file)")
-            } catch {
-                print("Error reading file: \(error)")
-            }
+            let wordCount = input.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }.count
+            print("\(wordCount)")
+        }
+
+        if characterCount {
+            let characterCount = input.count
+            print("\(characterCount)")
+        }
+
+        if defaultCount {
+            let byteCount = input.utf8.count
+            let lineCount = input.components(separatedBy: .newlines).count - 1
+            let wordCount = input.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }.count
+            print("\(byteCount) \(lineCount) \(wordCount)")
         }
     }
 
@@ -75,5 +99,13 @@ struct CCWCCommand: ParsableCommand {
         let fileContent = try String(contentsOf: URL(fileURLWithPath: path), encoding: .utf8)
         let words = fileContent.components(separatedBy: .whitespacesAndNewlines)
         return words.filter { !$0.isEmpty }.count
+    }
+
+    /// Challenge 4: Print the character count
+    /// - Parameter path: The path to the file
+    /// - Returns: The number of characters in the file
+    func readFileAndCountCharacters(at path: String) throws -> Int {
+        let fileContent = try String(contentsOf: URL(fileURLWithPath: path), encoding: .utf8)
+        return fileContent.count
     }
 }

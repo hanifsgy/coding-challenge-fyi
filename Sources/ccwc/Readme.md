@@ -40,3 +40,25 @@ output should be
 ```md
 58164 test.txt
 ```
+
+- challenge 4: get the number of characters in a file.
+
+```swift
+swift run ccwc -m test.txt
+```
+output should be 
+```md
+339292 test.txt
+```
+
+WIP locale issue
+
+- challenge 5: get the number of bytes, lines, words, and characters in a file.
+
+```swift
+swift run ccwc test.txt
+```
+output should be 
+```md
+342190 7145 58164 339292 test.txt
+```
