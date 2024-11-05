@@ -1,23 +1,6 @@
 import Foundation
 
 func main(_ args: [String] = CommandLine.arguments) {
-    // guard let filePath = parseArguments() else {
-    //     print("Usage: ccwc <file>")
-    //     return
-    // }
-    
-    // guard fileExists(at: filePath) else {
-    //     print("File does not exist")
-    //     return
-    // }
-    
-    // do {
-    //     let byteCount = try readFileAndCountBytes(at: filePath)
-    //     print("\(byteCount) bytes")
-    // } catch {
-    //     print("Error reading file: \(error)")
-    // }
-
     // Execute the command with swift argument parser
     CCWCCommand.main()
 }

@@ -1,6 +1,14 @@
 import Foundation
 import ArgumentParser
 
+private struct RuntimeError: Error, CustomStringConvertible {
+    let description: String
+    
+    init(_ description: String) {
+        self.description = description
+    }
+}
+
 struct CCWCCommand: ParsableCommand {
 
     /// Challenge 1: Print the byte count
@@ -25,25 +33,25 @@ struct CCWCCommand: ParsableCommand {
     var defaultCount: Bool {
         return !byteCount && !lineCount && !wordCount && !characterCount
     }
-
-    // No need for a standard input flag; we will read from standard input directly if no file is provided.
-
-    @Argument(help: "The file to read")
-    var file: String
+    
+    @Argument(help: "The file to read", completion: .file())
+    var file: String?
 
     public init() { }
 
     public func run() throws {
         let input: String
         
-        if file.isEmpty {
-            input = String(decoding: FileHandle.standardInput.readDataToEndOfFile(), as: UTF8.self)
-        } else {
-            guard fileExists(at: file) else {
-                print("File does not exist")
+        if let filePath = file {
+            guard fileExists(at: filePath) else {
+                throw RuntimeError("File does not exist at path: \(filePath)")
                 return
             }
-            input = try String(contentsOfFile: file, encoding: .utf8)
+            input = try String(contentsOfFile: filePath, encoding: .utf8)
+        } else {
+            // Read from standard input
+            let standardInput = FileHandle.standardInput
+            input = String(decoding: try standardInput.readToEnd() ?? Data(), as: UTF8.self)
         }
 
         if byteCount {
